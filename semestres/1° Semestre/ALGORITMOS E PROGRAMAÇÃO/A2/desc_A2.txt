@@ -1,0 +1,13 @@
+Atividade 2 (exercícios no Beecrowd)
+
+Acesse o link beecrowd.com.br
+Crie uma conta e ative-a (verificaçào enviada para e-mail cadastrado)
+Realize o Login e complete os dados da sua conta
+
+Acesse a turma pelo link bcwd.me/d-13405
+Use a palavra chave de acesso u4uKdCF 
+
+Fazer os exercícios até 04/11 às 19h. 
+Cada exercício valerá 1 ponto para a atividade 2.
+Dica para o exercício 2: x, y = map(float, input().split()) 
+
