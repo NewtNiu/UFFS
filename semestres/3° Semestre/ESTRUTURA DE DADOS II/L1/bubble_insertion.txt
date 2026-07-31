@@ -1,0 +1,303 @@
+// 1 arquivo: bubble.c
+// ==================================================================================================================================================================================================================
+// Respostas
+
+// Questão 0- Verifique se as funções estão funcionando corretamente. Se não, faça a correção.
+//      - Estude o código.
+//      - Altere o valor de n para 1000000. O que pode estar acontecendo com o código?
+// R: A principio as funcaos estao corretas, cada uma utiliza um metodo de ordenacao:
+// magica : selection
+// magica2 : bibble
+// elas atte funcionam mas para valores muito grandes fica impraticavel usar os metodos devido a lentidao
+
+// Questão 1 - Pq se deve alocar dinamicamente o vetor quando o n>>100 (grande)?
+// R: Porque vetores locais sao alocados na pilha (stack), que e limitado (espaco menor), ja se usarmos alocaçao dinamica (malloc) o vetor fica no heap, que e bem maior.
+
+// Questão 2 - Qual a diferença entre &vet e vet? 
+// R : vet e o pntteiro pro firts ja o &vet e pro local da lista
+// funcoes *int na vao aceitar o &vet
+
+// Questão 3 - O que acontece se a função magica2 for chamada com o argumento &vet ao invés de vet?
+// a funcao ta esperando um pp int**, resumindo &vet tem tipo int (*)[n] e nao int**, see executar o gcc retorna flag, tentei frcar com ((int**)&vet) mas da indefinido na memoria.
+
+// Questão 4: Pq o tempo de execução é bem menor na função ? 
+// R : Na pratica naao muda muita coisa
+// mas, magica tem 2 loops aninhados ate n e faz mais trocas, ja magica2 no segundo loop ele faz menos trocas
+// ex: se magica exeecuta 10 no 1 loop e 10 no segundo, digams que da 20, ja magica2 e 10 no primeiro e 5 no segundo 15, em resum e executados menos vezes e acaba antes.
+
+// Questão 5 - O parâmetro desta função são valores ou ponteiros? Explique.
+// ponteiros para modificar valores, na chamada da funcao e passad os enderecos, ai dentro dela e alterado os valores originais indiretamente
+
+// Questão 6- Está sendo realizada a troca de um valor ou um ponteiro? 
+// R : e trooca d valores tem ponteiro arr, o codigo acessa os valores inteiros dentr de arr[j]
+
+// PARTES DO CODIGO ALTERASDAS:
+// Blc da funcao magica2 e como os valores gerais do codigo sao printados(escritos no terminal na saida)
+
+/*
+void magica2(int n, int* arr) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+    printf("Bubble sort result:\n");
+    printArray(n, arr);
+}
+
+no main
+apos a Selection
+
+printf("\n"); // gera o vetor denovo
+    for (int i = 0; i < n; i++) {
+        vet[i] = (rand() % 100);
+    }
+    
+    begin = clock();    
+    magica2(n, vet);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("\nBubble end time: %f", time_spent);
+*/
+
+#include <stdio.h> 
+#include <stdlib.h>
+#include <time.h>
+
+//   print array elements
+void printArray(int n, int* ptr) {
+  for (int i = 0; i < n; ++i) {
+    printf("%d  ", ptr[i]);
+  }
+  printf("\n");
+}
+
+void swap (int *a, int *b){
+   int temp=*(b);
+   *b=*a;
+   *a=temp;
+};
+
+void magica(int n, int* ptr) 
+{ 
+    int i, j, t;   
+    for (i = 0; i < n; i++) {   
+        for (j = i + 1; j < n; j++) {   
+            if (*(ptr + j) < *(ptr + i)) {   
+                swap((ptr + j), (ptr + i)); //Questão 5 - O parâmetro desta função são valores ou ponteiros? Explique. 
+            } 
+        } 
+    }   
+    printf("Selection sort result:\n");
+    printArray(n,ptr);
+} 
+
+/*
+void magica2(long int n, int **ptr) {
+    int *arr = *ptr;
+
+    for (long int i = 0; i < n - 1; i++) {
+        for (long int j = 0; j < n - i - 1; j++) {
+            if (arr[j] >arr[j + 1]) {
+                int temp = arr[j];// Questão 6- Está sendo realizada a troca de um valor ou um ponteiro? 
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+    printf("Sorted vector: ");
+    printArray(n, *ptr);
+    printf("\n");
+}
+*/
+
+void magica2(int n, int* arr) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+            }
+        }
+    }
+    printf("Bubble sort result:\n");
+    printArray(n, arr);
+}
+
+int main() //Questão 0- Verifique se as funções estão funcionando corretamente. Se não, faça a correção.
+              //      - Estude o código.
+              //      - Altere o valor de n para 1000000. O que pode estar acontecendo com o código?
+{ 
+    // vector size
+    int n = 100; 
+    // memory allocation    
+    int vet[n];// Questão 1 - Pq se deve alocar dinamicamente o vetor quando o n>>100 (grande)?
+    srand(time(NULL));
+
+    for (int i=0; i< n; i++){
+        vet[i]=(n-i);
+    }    
+    
+    //printArray(n,ptr);
+        
+    clock_t begin = clock();    
+    magica(n, vet); //Questão 2 - Qual a diferença entre &vet e vet? 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("\nSelection end time: %f\n", time_spent);
+
+    printf("\n"); // gera o vetor denovo
+    for (int i = 0; i < n; i++) {
+        vet[i] = (rand() % 100);
+    }
+
+    // Questão 3 - O que acontece se a função magica2 for chamada com o argumento &vet ao invés de vet?
+    begin = clock();    
+    magica2(n, vet);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("\nBubble end time: %f", time_spent); // // Questão 4: Pq o tempo de execução é bem menor na função ? 
+
+    return 0; 
+} 
+
+// 2 arquivo: insertion.c
+// ==================================================================================================================================================================================================================
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Questao 1 - Rode o código e verifique se está funcionando corretamente a partir do debug. 
+// R : O código compila e funciona, mas só implementava o insertion sort. 
+//     Para responder as outras Questaoes, foi criada a função bubbleSort
+void bubbleSort(int n, int *vet, int *comparacoes) {
+    int i, j, temp;
+    *comparacoes = 0;
+
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < n - i - 1; j++) {
+            (*comparacoes)++; // comparação
+            if (vet[j] > vet[j + 1]) {
+                temp = vet[j];
+                vet[j] = vet[j + 1];
+                vet[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// Insertion Sort
+void insertionSort(int n, int *vet, int *comparacoes) {
+    int i, j, chave;
+    *comparacoes = 0;
+
+    for (i = 1; i < n; i++) {
+        chave = vet[i];
+        j = i - 1;
+        while (j >= 0) {
+            (*comparacoes)++; // comparação
+            if (vet[j] > chave) {
+                vet[j + 1] = vet[j];
+                j--;
+            } else {
+                break;
+            }
+        }
+        vet[j + 1] = chave;
+    }
+}
+/*
+void sort(int n, int* ptr){
+
+    int i,j, min, t;
+    int contador=0;
+    for (i = 1; i < n; i++) {   
+        
+        min=ptr[i];
+        for (j=i; j>=1 && min< ptr[j-1];j--){
+            ptr[j]=ptr[j-1];
+           
+        }   
+        ptr[j]=min;
+    }
+    printf("sort vector\n");
+    for (int i=0;i<n;i++){
+        printf("%d ", ptr[i]);
+    }
+    printf("contador %i", contador);
+}
+*/
+
+// imprimir o vetor (so n peequen)
+void imprimirVetor(int *vet, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d ", vet[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n = 5; // teste pequeno para ver a saida
+    int *vet1 = (int*)malloc(n * sizeof(int)); // bubbkee
+    int *vet2 = (int*)malloc(n * sizeof(int)); // insertion
+    srand(time(NULL)); // gera numerros aleatorios com base na hr do pc
+
+    // cria vetor aleatório
+    for (int i = 0; i < n; i++) {
+        int num = rand() % 100;
+        vet1[i] = num;
+        vet2[i] = num;
+    }
+
+    int compBubble, compInsertion;
+    clock_t begin, end;
+    double tempo;
+
+    // Questao 2 - Crie uma variável para indicar quantas operações de comparação foram executadas pelo algortimo de bublle e pelo Insertion. Para a mesma entrada de 10000 elementos quantas comparações foram realizadas? 
+
+    printf("\n=== Bubble Sort ===\n");
+    begin = clock();
+    bubbleSort(n, vet1, &compBubble);
+    end = clock();
+    tempo = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("Vetor ordenado: ");
+    imprimirVetor(vet1, n);
+    printf("Comparacoes: %d\n", compBubble);
+    printf("Tempo: %f segundos\n", tempo);
+
+    printf("\n=== Insertion Sort ===\n");
+    begin = clock();
+    insertionSort(n, vet2, &compInsertion);
+    end = clock();
+    tempo = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("Vetor ordenado: ");
+    imprimirVetor(vet2, n);
+    printf("Comparacoes: %d\n", compInsertion);
+    printf("Tempo: %f segundos\n", tempo);
+
+
+    // Questao 3 - Quais são as diferenças entre os métodos bubble e insertion sort? 
+    // R : 
+    // bubble srt compara pares adjacentes, trocando sempre que necessario.
+    // Insertion Sort insere o elemento na posiçao correta, deslocando os maiores.
+    // O insertion faz menos comparações em média "mais eficiente"
+
+    // Questao 4 - Existe algum caso em que o buble é melhor que o sort em número de comparações?
+    // R : Não teoricamente o insertion e sempre igual ou melhor.
+    // Exemplo: vetor já ordenado -> insertion faz n-1 comparacoes e o bubble percorre tudo de novo.
+
+    // Questao 5 - Compute o tempo para fazer o ordenamento de um mesmo vetor randômico com 100000 valores usando o bubble e o insertion. 
+    // R : Se trocar n = 100000:
+    // - Bubble Sort fica muitoo lento
+    // - Insertion Sort também é lento mas ainda roda mais rápido
+    
+
+    free(vet1);
+    free(vet2);
+    return 0;
+}
+
