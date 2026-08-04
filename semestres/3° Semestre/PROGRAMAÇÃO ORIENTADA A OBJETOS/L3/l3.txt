@@ -1,0 +1,229 @@
+1 ===
+
+import java.io.FileReader;
+
+import java.io.FileWriter;
+
+import java.io.IOException;
+
+    public class ExemploCaracteres {
+
+        public static void main(String[] args) throws IOException {
+
+            // gravando arquivo
+
+            System.out.println("Gravando...");
+
+            FileWriter arqGravacao = new FileWriter("teste.txt");
+
+            for(int i = 65 ; i < 91; i++){
+
+                arqGravacao.write((char)i);
+
+            }
+
+            arqGravacao.close();
+
+            System.out.println("Gravação concluída!");
+
+            //lendo arquivo
+
+            System.out.println("************************************");
+
+            System.out.println("Lendo:");
+
+            FileReader arqLeitura = new FileReader("teste.txt");
+
+            int byteLido = 0;
+
+            while(arqLeitura.ready()){
+
+                byteLido = arqLeitura.read();
+
+                System.out.println((char)byteLido);
+
+            }
+
+            arqLeitura.close();
+
+    }
+
+}
+
+ 
+
+2 ===
+
+import java.io.BufferedReader;
+
+import java.io.BufferedWriter;
+
+import java.io.FileReader;
+
+import java.io.FileWriter;
+
+import java.io.IOException;
+
+ 
+
+public class ExemploBuffer {
+
+ 
+
+    public static void main(String[] args) {
+
+ 
+
+        Produto[] prod = new Produto[4];
+
+ 
+
+        prod[0] = new Produto("Milho", 1.75, 36);
+
+        prod[1] = new Produto("Pipoca", 2.99, 15);
+
+        prod[2] = new Produto("Arroz", 3.50, 20);
+
+        prod[3] = new Produto("Feijão preto", 9.99, 10);
+
+ 
+
+        try {
+
+            System.out.println("Gravando...");
+
+ 
+
+            FileWriter arqGravacao = new FileWriter("produtos.csv");
+
+            BufferedWriter buffer1 = new BufferedWriter(arqGravacao);
+
+ 
+
+            for (int i = 0; i < 4; i++) {
+
+                String linha = prod[i].getNome() + ";" +
+
+                               prod[i].getPreco() + ";" +
+
+                               prod[i].getQuantidade();
+
+ 
+
+                buffer1.write(linha);
+
+                buffer1.newLine();
+
+                buffer1.flush();
+
+            }
+
+ 
+
+            buffer1.close();
+
+            arqGravacao.close();
+
+ 
+
+            System.out.println("Gravação concluída!");
+
+ 
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+ 
+
+        System.out.println("*****************************");
+
+        System.out.println("Lendo:");
+
+ 
+
+        try {
+
+            FileReader arqLeitura = new FileReader("produtos.csv");
+
+            BufferedReader buffer2 = new BufferedReader(arqLeitura);
+
+ 
+
+            while (buffer2.ready()) {
+
+                String linha = buffer2.readLine();
+
+                System.out.println(linha);
+
+            }
+
+ 
+
+            buffer2.close();
+
+            arqLeitura.close();
+
+ 
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+}
+
+ 
+
+public class Produto {
+
+ 
+
+    private String nome;
+
+    private double preco;
+
+    private int quantidade;
+
+ 
+
+    public Produto(String nome, double preco, int quantidade) {
+
+        this.nome = nome;
+
+        this.preco = preco;
+
+        this.quantidade = quantidade;
+
+    }
+
+ 
+
+    public String getNome() {
+
+        return nome;
+
+    }
+
+ 
+
+    public double getPreco() {
+
+        return preco;
+
+    }
+
+ 
+
+    public int getQuantidade() {
+
+        return quantidade;
+
+    }
+
+}

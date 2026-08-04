@@ -8,7 +8,7 @@
 
 ### Professor:
 
-- *(a definir)*
+- Guilherme Dal Bianco
 
 ---
 
