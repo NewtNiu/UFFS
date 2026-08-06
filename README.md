@@ -69,7 +69,7 @@ UFFS/
 │   │   └── boletim26_1.png                      # print do boletim
 │   ├── imgDiagramaPCC/
 │   │   └── pcc25Diagrama_concluidas.png         # grade com as matérias concluídas
-│   └── pcc/
+│   └── ppc/
 │       └── PPC_Ciencia_da_Computacao_CH_2025.pdf   # Projeto Pedagógico do Curso
 └── semestres/                                   # conteúdo por disciplina, 
 
